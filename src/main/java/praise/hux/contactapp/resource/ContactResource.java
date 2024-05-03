@@ -3,14 +3,7 @@ package praise.hux.contactapp.resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import praise.hux.contactapp.domain.Contact;
 import praise.hux.contactapp.service.ContactService;
@@ -52,7 +45,11 @@ public class ContactResource {
         return ResponseEntity.ok().body(contactService.uploadPhoto(id, file));
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContact(@PathVariable(value = "id") String id) {
+        contactService.deleteContact(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping(path = "/image/{filename}", produces = { IMAGE_PNG_VALUE, IMAGE_JPEG_VALUE })
     public byte[] getPhoto(@PathVariable("filename") String filename) throws IOException {
